@@ -1,0 +1,32 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+    BookShop  - Online Bookstore
+{% endblock %}
+
+
+{% block content %}
+
+<h4 class="shadow p-3 mb-1 bg-white rounded" style="color: grey ">ALL BOOKS</h4>
+
+<div style="margin-top: 2%;margin-left: 6%">
+  <div class="row">
+
+    {% for product in products %}
+
+    <a href="{{ product.get_absolute_url }}">
+      <hr>
+      <h5 class="text-left">{{ product.name }}</h5>
+      <p class="card-text">$ {{ product.price }}</p>
+      {% if product.stock > 0 %}
+      <p class="card-text" style="color: teal">In Stock ({{ product.stock }} ps.)</p>
+      {% else %}
+      <p class="card-text" style="color: gold">Out of Stock</p>
+      {% endif %}
+      <p><a href="{{ product.get_absolute_url }}" class="btn btn-dark btn-sm">View</a></p>
+
+      {% endfor %}
+  </div>
+</div>    
+{% endblock %}

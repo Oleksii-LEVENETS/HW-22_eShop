@@ -1,0 +1,44 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+    Book Detail
+{% endblock %}
+
+{% block content %}
+
+<div class="single_product" style="margin: 5%">
+  <div class="container-fluid">
+    <div class="row" style="margin-top: 2%">
+      <div class="col">
+
+        <div class="product_name">
+            <h3>Title: {{ product.name }}</h3>
+        </div>
+
+        <div class="product_isbn_no">
+        <p class="text-muted">ISBN: {{ product.isbn_no }}</p>
+        </div>
+
+        <div class="product_price">
+        <p class="text-muted">Price: $ {{ product.price }}</p>
+        </div>
+
+        {% if product.stock > 0 %}
+            <p class="card-text" style="color: teal">In Stock ({{ product.stock }} ps.)</p>
+            <div class="order_info d-flex flex-row">
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+            {% csrf_token %}
+            {{ cart_product_form }}
+            <input type="submit" value="Add to cart" class="btn btn-success btn-sm">
+            </form>
+            </div>
+        {% else %}
+            <p class="card-text" style="color: red">Sorry, {{ product.name }} Book is Out of Stock.</p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+    
+{% endblock %}

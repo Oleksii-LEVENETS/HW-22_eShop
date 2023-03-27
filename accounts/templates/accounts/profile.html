@@ -1,0 +1,40 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+    Profile
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container " style="margin-top: 3%">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2> My Profile </h2>
+                <strong>Welcome, {{ user.username|capfirst }}!</strong>
+                <br>
+<hr>
+
+            {% if user.is_authenticated %}
+                <legend>Order History</legend>
+                {% for order in orders %}
+                    Order #{{ order.id }} - Created: {{ order.created }}
+                    </a>
+                <br/>
+                {% empty %}
+                You have no past orders.
+                {% endfor %}
+            <hr>
+            <p>Name : {{user.first_name}} {{user.last_name}}</p>
+            <p>Username : {{user.username}}</p>
+            <p>Email : {{user.email}}</p>
+
+            <hr>
+            <a class="btn btn-info" href="{% url 'edit_profile' %}" role="button">
+            Edit Profile <i class="fas fa-edit"></i></a>
+            {% endif %}
+      </div>
+  </div>
+</div>
+
+{% endblock %}
