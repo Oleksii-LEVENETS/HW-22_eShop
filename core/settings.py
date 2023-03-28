@@ -164,7 +164,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 # CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
 # CELERY_RESULT_BACKEND = 'django-db'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
 
 # CELERY_BROKER_URL = 'amqp://localhost:5672'
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
@@ -176,7 +176,7 @@ CELERY_CACHE_BACKEND = "default"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = 'Europe/Kiev'
+CELERY_TIMEZONE = "Europe/Kiev"
 
 
 # Cache time to live is 15 seconds:
@@ -190,7 +190,7 @@ CACHES = {
             "db": "10",
             "parser_class": "redis.connection.PythonParser",
             "pool_class": "redis.BlockingConnectionPool",
-        }
+        },
     }
 }
 
@@ -250,8 +250,6 @@ else:
     # EMAIL_HOST_USER = ""
     # EMAIL_HOST_PASSWORD = ""
     # EMAIL_USE_SSL = False
-
-
 
 ##################
 # USER_AGENTS_CACHE = "default"
