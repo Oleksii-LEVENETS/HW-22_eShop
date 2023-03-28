@@ -36,6 +36,9 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 
+    INTERNAL_IPS = ["127.0.0.1"]
+    DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
+
 
 # Application definition
 
@@ -46,16 +49,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Database:
+    "django.contrib.postgres",
     # Third apps:
     "django_extensions",
     "django_filters",
     "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
     # My apps:
     "shop",
     "cart",
     "orders",
     "accounts",
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
+    # INSTALLED_APPS.append("django_celery_results")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -66,6 +77,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "core.urls"
 
@@ -92,18 +106,30 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'hw22eshop_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost'
+#     }
+# }
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("NAME_DB"),
+        "USER": os.environ.get("USER_DB"),
+        "PASSWORD": os.environ.get("PASSWORD_DB"),
+        "HOST": os.environ.get("HOST_DB"),
+        # "PORT": os.environ.get("PORT_DB"),
     }
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -125,11 +151,48 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev"
 
 USE_I18N = True
 
 USE_TZ = True
+
+# Celery Configuration Options
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", 'redis://localhost:6379/0')
+
+# CELERY_BROKER_URL = 'amqp://localhost:5672'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://localhost:5672")
+
+# CELERY_CACHE_BACKEND = "django-cache"
+CELERY_CACHE_BACKEND = "default"
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = 'Europe/Kiev'
+
+
+# Cache time to live is 15 seconds:
+CACHE_TTL = 15
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "db": "10",
+            "parser_class": "redis.connection.PythonParser",
+            "pool_class": "redis.BlockingConnectionPool",
+        }
+    }
+}
 
 
 # Static files (CSS, JavaScript, Images)
@@ -148,24 +211,24 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CART_SESSION_ID = "cart"
 
-REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "rest_framework_json_api.exceptions.exception_handler",
-    "DEFAULT_PARSER_CLASSES": ("rest_framework_json_api.parsers.JSONParser",),
-    "DEFAULT_RENDERER_CLASSES": (
-        "rest_framework_json_api.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ),
-    "DEFAULT_METADATA_CLASS": "rest_framework_json_api.metadata.JSONAPIMetadata",
-    "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework_json_api.filters.QueryParameterValidationFilter",
-        "rest_framework_json_api.filters.OrderingFilter",
-        "rest_framework_json_api.django_filters.DjangoFilterBackend",
-        "rest_framework.filters.SearchFilter",
-    ),
-    "SEARCH_PARAM": "filter[search]",
-    "TEST_REQUEST_RENDERER_CLASSES": ("rest_framework_json_api.renderers.JSONRenderer",),
-    "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
-}
+# REST_FRAMEWORK = {
+#     "EXCEPTION_HANDLER": "rest_framework_json_api.exceptions.exception_handler",
+#     "DEFAULT_PARSER_CLASSES": ("rest_framework_json_api.parsers.JSONParser",),
+#     "DEFAULT_RENDERER_CLASSES": (
+#         "rest_framework_json_api.renderers.JSONRenderer",
+#         "rest_framework.renderers.BrowsableAPIRenderer",
+#     ),
+#     "DEFAULT_METADATA_CLASS": "rest_framework_json_api.metadata.JSONAPIMetadata",
+#     "DEFAULT_FILTER_BACKENDS": (
+#         "rest_framework_json_api.filters.QueryParameterValidationFilter",
+#         "rest_framework_json_api.filters.OrderingFilter",
+#         "rest_framework_json_api.django_filters.DjangoFilterBackend",
+#         "rest_framework.filters.SearchFilter",
+#     ),
+#     "SEARCH_PARAM": "filter[search]",
+#     "TEST_REQUEST_RENDERER_CLASSES": ("rest_framework_json_api.renderers.JSONRenderer",),
+#     "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
+# }
 
 # Add to test email:
 if not DEBUG:
@@ -188,22 +251,50 @@ else:
     # EMAIL_HOST_PASSWORD = ""
     # EMAIL_USE_SSL = False
 
-# Celery
-# from datetime import timedelta
+
+
+##################
+# USER_AGENTS_CACHE = "default"
 #
-# from celery.schedules import crontab
+# REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
+# REDIS_CACHE = env("REDIS_CACHE", default="redis:6379")
+# AMQP_URL = env("AMQP_URL", default="amqp://rabbitmq:5672")
 #
-# CELERY_TASK_RESULT_EXPIRES = 3600
+# BROKER_URL = AMQP_URL
+# CELERY_result_backend = REDIS_URL
+# CELERY_BROKER_URL = BROKER_URL
 #
-# CELERY_BEAT_SCHEDULE = {
-#     "celery.backend_cleanup": {
-#         "task": "celery.backend_cleanup",
-#         "schedule": timedelta(seconds=300),
-#         "args": (),
-#     },
-#     "periodic": {
-#         "task": "geo_data.tasks.add",
-#         "schedule": timedelta(seconds=5),
-#         "args": (4, 5),
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": [
+#             REDIS_URL,
+#         ],
+#         "OPTIONS": {
+#             "CONNECTION_POOL_CLASS": "redis.BlockingConnectionPool",
+#             "CONNECTION_POOL_CLASS_KWARGS": {
+#                 "max_connections": 50,
+#                 "timeout": 20,
+#             },
+#             "MAX_CONNECTIONS": 1000,
+#             "PICKLE_VERSION": -1,
+#         },
 #     },
 # }
+####################
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
+    "DEFAULT_PERMISSION_CLASSES": (
+        # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        # "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}

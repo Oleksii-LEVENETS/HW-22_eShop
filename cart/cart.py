@@ -14,20 +14,20 @@ class Cart(object):
         self.cart = cart
 
     def add(self, product, quantity=1, update_quantity=False):
-        product_id = str(product.id)
-        if product_id not in self.cart:
-            self.cart[product_id] = {"quantity": 0, "price": str(product.price)}
+        product_pk = str(product.pk)
+        if product_pk not in self.cart:
+            self.cart[product_pk] = {"quantity": 0, "price": str(product.price)}
         if update_quantity:
-            self.cart[product_id]["quantity"] = quantity
-            if self.cart[product_id]["quantity"] >= product.stock:
-                self.cart[product_id]["quantity"] = product.stock
+            self.cart[product_pk]["quantity"] = quantity
+            if self.cart[product_pk]["quantity"] >= product.stock:
+                self.cart[product_pk]["quantity"] = product.stock
 
             else:
-                self.cart[product_id]["quantity"] = quantity
+                self.cart[product_pk]["quantity"] = quantity
         else:
-            self.cart[product_id]["quantity"] += quantity
-            if self.cart[product_id]["quantity"] > product.stock:
-                self.cart[product_id]["quantity"] = product.stock
+            self.cart[product_pk]["quantity"] += quantity
+            if self.cart[product_pk]["quantity"] > product.stock:
+                self.cart[product_pk]["quantity"] = product.stock
         self.save()
 
     def save(self):
@@ -35,16 +35,16 @@ class Cart(object):
         self.session.modified = True
 
     def remove(self, product):
-        product_id = str(product.id)
-        if product_id in self.cart:
-            del self.cart[product_id]
+        product_pk = str(product.pk)
+        if product_pk in self.cart:
+            del self.cart[product_pk]
             self.save()
 
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        product_pks = self.cart.keys()
+        products = Product.objects.filter(pk__in=product_pks)
         for product in products:
-            self.cart[str(product.id)]["product"] = product
+            self.cart[str(product.pk)]["product"] = product
 
         for item in self.cart.values():
             item["price"] = Decimal(item["price"])

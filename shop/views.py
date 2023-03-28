@@ -6,6 +6,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Product
 
+from .serializers import ProductSerializer
+
+from rest_framework import viewsets
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAdminUser
+
 
 # List
 def product_list(request):
@@ -43,3 +49,19 @@ def product_detail(request, pk):
     }
 
     return render(request, "shop/product_detail.html", context)
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    permission_classes = (IsAdminUser,)
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+
+    def perform_create(self, serializer):
+        serializer.save()
