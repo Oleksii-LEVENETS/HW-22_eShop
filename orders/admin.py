@@ -52,3 +52,4 @@ class OrderAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
+    save_as = True

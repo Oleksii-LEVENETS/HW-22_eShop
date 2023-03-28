@@ -17,11 +17,33 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+from shop.views import ProductViewSet
+from orders.views import OrderViewSet, OrderItemViewSet
+
+router = DefaultRouter()
+router.register(r"products", ProductViewSet, basename="product")
+router.register(r"orderitems", OrderItemViewSet, basename="orderitem")
+router.register(r"orders", OrderViewSet, basename="order")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("cart/", include("cart.urls")),
     path("orders/", include("orders.urls")),
     path("accounts/", include("accounts.urls")),
-    path("", include("shop.urls", namespace="shop")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("", include("shop.urls")),
+
+]
+
+urlpatterns += [
+    path("eshop_api/", include(router.urls)),
+]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns.insert(0, path("__debug__/", include(debug_toolbar.urls)))
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
