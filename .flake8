@@ -13,7 +13,7 @@ exclude =
     tests.py,
     # There's no value in checking tests directory
     tests,
-    # No need to traverse sandbox.py
-    .tox
+    .tox,
+    api.py
 
 max-complexity = 10

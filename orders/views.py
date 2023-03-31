@@ -2,15 +2,15 @@ from cart.cart import Cart
 
 from django.shortcuts import render
 
-from .forms import OrderCreateForm
-from .models import Order, OrderItem
+from orders import tasks
 
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAdminUser
 
-from .serializers import OrderSerializer, OrderItemSerializer
-from orders.tasks import send_mail_temp
+from .forms import OrderCreateForm
+from .models import Order, OrderItem
+from .serializers import OrderItemSerializer, OrderSerializer
 
 
 def order_create(request):
@@ -28,8 +28,13 @@ def order_create(request):
             orderitems = OrderItem.objects.filter(order_id=order.id)
             dict_orderitems = {}
             for num, item in enumerate(orderitems):
-                dict_item = {"product.name": item.product.name, "product.isbn_no": item.product.isbn_no,
-                             "price": item.product.price, "quantity": item.quantity, "get_cost": item.get_cost()}
+                dict_item = {
+                    "product.name": item.product.name,
+                    "product.isbn_no": item.product.isbn_no,
+                    "price": item.product.price,
+                    "quantity": item.quantity,
+                    "get_cost": item.get_cost(),
+                }
                 dict_orderitems[num + 1] = dict_item
             subject = f"New Order {order.pk} created {order.created}."
             message = f"""
@@ -42,7 +47,7 @@ def order_create(request):
                 Order Total Cost: {order.get_total_cost()}
             """
             user_email = order.email
-            send_mail_temp.delay(subject, message, user_email)
+            tasks.send_mail_temp.delay(subject, message, user_email)
 
             return render(request, "orders/order_created.html", {"order": order})
     else:

@@ -13,13 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+
+from orders.views import OrderItemViewSet, OrderViewSet
+
 from rest_framework.routers import DefaultRouter
+
 from shop.views import ProductViewSet
-from orders.views import OrderViewSet, OrderItemViewSet
 
 router = DefaultRouter()
 router.register(r"products", ProductViewSet, basename="product")
@@ -33,7 +37,6 @@ urlpatterns = [
     path("orders/", include("orders.urls")),
     path("accounts/", include("accounts.urls")),
     path("", include("shop.urls")),
-
 ]
 
 urlpatterns += [

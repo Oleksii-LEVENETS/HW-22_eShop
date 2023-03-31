@@ -14,8 +14,8 @@ get_response_2 = requests.get(endpoint_2, headers=headers)
 get_response_3 = requests.get(endpoint_3, headers=headers)
 
 
-print("get_response_1: ", get_response_1.json())
-print("#"*50)
-print("get_response_2: ", get_response_2.json())
-print("#"*50)
-print("get_response_3: ", get_response_3.json())
+# print("get_response_1: ", get_response_1.json())
+# print("#"*50)
+# print("get_response_2: ", get_response_2.json())
+# print("#"*50)
+# print("get_response_3: ", get_response_3.json())

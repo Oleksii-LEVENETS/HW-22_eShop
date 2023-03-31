@@ -53,3 +53,11 @@ class OrderAdmin(admin.ModelAdmin):
         "updated",
     )
     save_as = True
+
+    def save_model(self, request, obj, form, change):
+        update_fields = []
+        if form.cleaned_data["paid"] is True:
+            update_fields.append("paid")
+            obj.save(update_fields=update_fields)
+        else:
+            obj.save()

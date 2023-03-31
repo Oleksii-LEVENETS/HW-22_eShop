@@ -21,14 +21,14 @@ class Cart(object):
             self.cart[product_pk]["quantity"] = quantity
             if self.cart[product_pk]["quantity"] >= product.stock:
                 self.cart[product_pk]["quantity"] = product.stock
-
-            else:
-                self.cart[product_pk]["quantity"] = quantity
         else:
             self.cart[product_pk]["quantity"] += quantity
             if self.cart[product_pk]["quantity"] > product.stock:
                 self.cart[product_pk]["quantity"] = product.stock
         self.save()
+
+        product.stock = product.stock - self.cart[product_pk]["quantity"]
+        product.save()
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
@@ -37,8 +37,10 @@ class Cart(object):
     def remove(self, product):
         product_pk = str(product.pk)
         if product_pk in self.cart:
+            product.stock = product.stock + self.cart[product_pk]["quantity"]
             del self.cart[product_pk]
             self.save()
+            product.save()
 
     def __iter__(self):
         product_pks = self.cart.keys()
