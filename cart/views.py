@@ -22,7 +22,7 @@ def cart_add(request, product_pk):
 
 def cart_remove(request, product_pk):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_pk)
+    product = get_object_or_404(Product, pk=product_pk)
     cart.remove(product)
     return redirect("cart:cart_detail")
 

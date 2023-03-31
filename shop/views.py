@@ -1,6 +1,7 @@
 from cart.forms import CartAddProductForm
 
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -17,6 +18,10 @@ def product_list(request):
     products = Product.objects.all()
     search_term = ""
 
+    paginator = Paginator(products, 20)  # Show 21 books per page.
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
+
     if "search" in request.GET:
         search_term = request.GET["search"]
         products = Product.objects.filter(name__icontains=search_term)
@@ -28,9 +33,9 @@ def product_list(request):
     query = request.GET.get("q")
     if query:
         products = Product.objects.filter(Q(name__icontains=query)).distinct()
-        return render(request, "shop/product_list.html", {"products": products})
+        return render(request, "shop/product_list.html", {"products": products, "page_obj": page_obj})
 
-    context = {"products": products, "search_term": search_term}
+    context = {"products": products, "search_term": search_term, "page_obj": page_obj}
     return render(request, "shop/product_list.html", context)
 
 

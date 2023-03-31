@@ -2,7 +2,7 @@ from cart.cart import Cart
 
 from django.shortcuts import render
 
-from orders.tasks import send_mail_temp
+from orders import tasks
 
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -47,7 +47,7 @@ def order_create(request):
                 Order Total Cost: {order.get_total_cost()}
             """
             user_email = order.email
-            send_mail_temp.delay(subject, message, user_email)
+            tasks.send_mail_temp.delay(subject, message, user_email)
 
             return render(request, "orders/order_created.html", {"order": order})
     else:

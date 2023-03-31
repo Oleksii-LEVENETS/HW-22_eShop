@@ -104,18 +104,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'hw22eshop_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost'
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -123,7 +111,7 @@ DATABASES = {
         "USER": os.environ.get("USER_DB"),
         "PASSWORD": os.environ.get("PASSWORD_DB"),
         "HOST": os.environ.get("HOST_DB"),
-        # "PORT": os.environ.get("PORT_DB"),
+        "PORT": os.environ.get("PORT_DB"),
     }
 }
 
