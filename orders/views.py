@@ -1,3 +1,5 @@
+from api import api_order_new, api_orderitem
+
 from cart.cart import Cart
 
 from django.shortcuts import render
@@ -19,9 +21,27 @@ def order_create(request):
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
+            api_order_new(
+                pk=order.pk,
+                first_name=order.first_name,
+                last_name=order.last_name,
+                email=order.email,
+                phone_number=order.phone_number,
+                city=order.city,
+                created=order.created,
+                updated=order.updated,
+                paid=order.paid,
+            )
             for item in cart:
-                OrderItem.objects.create(
+                orderitem = OrderItem.objects.create(
                     order=order, product=item["product"], price=item["price"], quantity=item["quantity"]
+                )
+                api_orderitem(
+                    pk=orderitem.pk,
+                    order=orderitem.order.pk,
+                    product=orderitem.product.pk,
+                    price=orderitem.price,
+                    quantity=orderitem.quantity,
                 )
             cart.clear()
 

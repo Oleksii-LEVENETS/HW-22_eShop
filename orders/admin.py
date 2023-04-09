@@ -1,6 +1,8 @@
 import csv
 import datetime
 
+from api import api_order_paid_change
+
 from django.contrib import admin
 from django.http import HttpResponse
 
@@ -56,8 +58,9 @@ class OrderAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         update_fields = []
-        if form.cleaned_data["paid"] is True:
+        if form.cleaned_data["paid"] is True:  # "is True" for clarity
             update_fields.append("paid")
             obj.save(update_fields=update_fields)
+            api_order_paid_change(obj.pk, obj.paid)
         else:
             obj.save()

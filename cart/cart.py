@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from api import api_cart
+
 from django.conf import settings
 
 from shop.models import Product
@@ -17,18 +19,22 @@ class Cart(object):
         product_pk = str(product.pk)
         if product_pk not in self.cart:
             self.cart[product_pk] = {"quantity": 0, "price": str(product.price)}
+        quantity_old = self.cart[product_pk]["quantity"]
         if update_quantity:
             self.cart[product_pk]["quantity"] = quantity
             if self.cart[product_pk]["quantity"] >= product.stock:
                 self.cart[product_pk]["quantity"] = product.stock
+
         else:
             self.cart[product_pk]["quantity"] += quantity
             if self.cart[product_pk]["quantity"] > product.stock:
                 self.cart[product_pk]["quantity"] = product.stock
+
         self.save()
 
-        product.stock = product.stock - self.cart[product_pk]["quantity"]
+        product.stock = product.stock - self.cart[product_pk]["quantity"] + quantity_old
         product.save()
+        api_cart(pk=product.pk, stock=product.stock)
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
@@ -41,6 +47,7 @@ class Cart(object):
             del self.cart[product_pk]
             self.save()
             product.save()
+            api_cart(pk=product.pk, stock=product.stock)
 
     def __iter__(self):
         product_pks = self.cart.keys()
