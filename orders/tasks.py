@@ -74,4 +74,5 @@ def synchro_db(*args, **kwargs):
                 product, created = Product.objects.update_or_create(isbn_no=isbn_no, defaults=updated_values)
             except Exception as ex:
                 raise ex
+
         page += 1

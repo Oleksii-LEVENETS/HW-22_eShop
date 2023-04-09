@@ -167,14 +167,17 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Europe/Kiev"
 
 
-# Cache time to live is 15 seconds:
-CACHE_TTL = 15
+# flower settings
+CELERY_FLOWER_USER = "admin"
+CELERY_FLOWER_PASSWORD = "admin"
+CELERY_FLOWER_PORT = 5555
+
+
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "db": "10",
             "parser_class": "redis.connection.PythonParser",
             "pool_class": "redis.BlockingConnectionPool",
@@ -185,7 +188,6 @@ CACHES = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = "shop/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -194,29 +196,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CART_SESSION_ID = "cart"
-
-# REST_FRAMEWORK = {
-#     "EXCEPTION_HANDLER": "rest_framework_json_api.exceptions.exception_handler",
-#     "DEFAULT_PARSER_CLASSES": ("rest_framework_json_api.parsers.JSONParser",),
-#     "DEFAULT_RENDERER_CLASSES": (
-#         "rest_framework_json_api.renderers.JSONRenderer",
-#         "rest_framework.renderers.BrowsableAPIRenderer",
-#     ),
-#     "DEFAULT_METADATA_CLASS": "rest_framework_json_api.metadata.JSONAPIMetadata",
-#     "DEFAULT_FILTER_BACKENDS": (
-#         "rest_framework_json_api.filters.QueryParameterValidationFilter",
-#         "rest_framework_json_api.filters.OrderingFilter",
-#         "rest_framework_json_api.django_filters.DjangoFilterBackend",
-#         "rest_framework.filters.SearchFilter",
-#     ),
-#     "SEARCH_PARAM": "filter[search]",
-#     "TEST_REQUEST_RENDERER_CLASSES": ("rest_framework_json_api.renderers.JSONRenderer",),
-#     "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
-# }
 
 # Add to test email:
 if not DEBUG:
@@ -228,46 +210,12 @@ if not DEBUG:
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 else:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_HOST_USER = "admin@admin.com"
-
-    # Email configuration
-    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    # EMAIL_HOST = "mailhog"
-    # EMAIL_PORT = "25"
-    # EMAIL_HOST_USER = ""
-    # EMAIL_HOST_PASSWORD = ""
-    # EMAIL_USE_SSL = False
-
-##################
-# USER_AGENTS_CACHE = "default"
-#
-# REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
-# REDIS_CACHE = env("REDIS_CACHE", default="redis:6379")
-# AMQP_URL = env("AMQP_URL", default="amqp://rabbitmq:5672")
-#
-# BROKER_URL = AMQP_URL
-# CELERY_result_backend = REDIS_URL
-# CELERY_BROKER_URL = BROKER_URL
-#
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": [
-#             REDIS_URL,
-#         ],
-#         "OPTIONS": {
-#             "CONNECTION_POOL_CLASS": "redis.BlockingConnectionPool",
-#             "CONNECTION_POOL_CLASS_KWARGS": {
-#                 "max_connections": 50,
-#                 "timeout": 20,
-#             },
-#             "MAX_CONNECTIONS": 1000,
-#             "PICKLE_VERSION": -1,
-#         },
-#     },
-# }
-####################
+    # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = os.environ.get("EMAIL_PORT")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 
 
 REST_FRAMEWORK = {

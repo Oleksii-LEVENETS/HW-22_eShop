@@ -1,21 +1,77 @@
+import json
+
+from orders import tasks
+
 import requests
 
-
-endpoint_1 = "http://localhost:8000/eshop_api/products/"
-
-endpoint_2 = "http://localhost:8000/eshop_api/orderitems/"
-
-endpoint_3 = "http://localhost:8000/eshop_api/orders/"
-
-headers = {"Authorization": "Token 72604ae7455bdd36e535e5cb171c6cfbcc25e128"}
-
-get_response_1 = requests.get(endpoint_1, headers=headers)
-get_response_2 = requests.get(endpoint_2, headers=headers)
-get_response_3 = requests.get(endpoint_3, headers=headers)
+from shop.models import Product
 
 
-# print("get_response_1: ", get_response_1.json())
-# print("#"*50)
-# print("get_response_2: ", get_response_2.json())
-# print("#"*50)
-# print("get_response_3: ", get_response_3.json())
+def api_cart(pk, stock):
+    url_base = "http://localhost:8001/product"
+    headers = {"Content-Type": "application/json"}
+    data = {"stock": stock}
+    url = f"{url_base}/{pk}/"
+    response_old = requests.get(url, headers=headers)
+    response_new = requests.patch(url, data=json.dumps(data), headers=headers)
+    book = Product.objects.get(pk=pk)
+    subject = f"Change book {book}: shop -> storehouse"
+    message = f"Was: {response_old.json()}\n" f"Is:  {response_new.json()}"
+    tasks.send_mail_temp.delay(subject, message)
+
+
+def api_order_new(pk, first_name, last_name, email, phone_number, city, created, updated, paid):
+    url = "http://localhost:8001/order/"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "id": pk,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "phone_number": phone_number,
+        "city": city,
+        "created": created.strftime("%Y-%m-%d %H:%M:%S"),
+        "updated": updated.strftime("%Y-%m-%d %H:%M:%S"),
+        "paid": paid,
+    }
+    requests.post(url, data=json.dumps(data), headers=headers)
+
+
+def api_order_paid_change(pk, paid):
+    url = f"http://localhost:8001/order/{pk}/"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "paid": paid,
+    }
+    requests.patch(url, data=json.dumps(data), headers=headers)
+
+
+def api_order_delete(pk):
+    url = f"http://localhost:8001/order/{pk}/"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "id": pk,
+    }
+    requests.delete(url, data=json.dumps(data), headers=headers)
+
+
+def api_orderitem(pk, order, product, price, quantity):
+    url = "http://localhost:8001/orderitems/"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "id": pk,
+        "order": order,
+        "product": product,
+        "price": price,
+        "quantity": quantity,
+    }
+    requests.post(url, data=json.dumps(data, ensure_ascii=False, default=str), headers=headers)
+
+
+def api_orderitem_delete(pk):
+    url = f"http://localhost:8001/orderitems/{pk}/"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "id": pk,
+    }
+    requests.delete(url, data=json.dumps(data), headers=headers)
