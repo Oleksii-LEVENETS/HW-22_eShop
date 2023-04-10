@@ -36,7 +36,8 @@ urlpatterns = [
     path("cart/", include("cart.urls")),
     path("orders/", include("orders.urls")),
     path("accounts/", include("accounts.urls")),
-    path("", include("shop.urls")),
+    # path("", include("shop.urls")),
+    path("", include(("shop.urls", "shop"), namespace="shop")),
 ]
 
 urlpatterns += [
