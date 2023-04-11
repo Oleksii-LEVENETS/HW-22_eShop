@@ -13,7 +13,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Install dependencies
 

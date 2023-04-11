@@ -17,7 +17,5 @@
 .vagrant/
 __pycache__
 
-Dockerfile
-.dockerignore
 .gitignore
 README.md
