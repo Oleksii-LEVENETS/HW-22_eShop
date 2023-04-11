@@ -4,19 +4,15 @@ exclude =
     # No need to traverse our git directory
     .git,
     # There's no value in checking cache directories
-    eshop/__pycache__,
-    estorehouse/__pycache__,
+    __pycache__,
     # There's no value in checking .venv directory
-    eshop/.venv,
-    estorehouse/.venv,
+    .venv,
     # There's no value in checking migrations directory
     *migrations*,
     # There's no value in checking tests.py file
-    eshop/tests.py,
-    estorehouse/tests.py,
+    tests.py,
     # There's no value in checking tests directory
-    eshop/tests,
-    estorehouse/tests,
+    tests,
     .tox,
 
 max-complexity = 10

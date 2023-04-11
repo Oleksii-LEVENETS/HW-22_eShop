@@ -1,0 +1,539 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2023-03-31T15:19:48.591Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "admin",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2023-03-31T15:22:00.315Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "2",
+    "object_repr": "test",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"Superuser status\"]}}]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$33lzMToKe4gjAORU0C9jcO$4Mx2Xkr9XezLrqdB2reVTMk86i36Ine0+7uXkT4tOO4=",
+    "last_login": "2023-03-31T07:46:31Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "Oleksii",
+    "last_name": "Levenets",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-03-30T13:49:23Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$k8tzXLaxKM31hTfLj3YcLu$AR5VcgQTy2Tkh1Sgg4lF07eghKATSqLNuNKqV5Oy8Zc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test",
+    "first_name": "Testen",
+    "last_name": "Testenko",
+    "email": "test@test.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-03-31T15:21:08Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "0vwwgazy1rb2xunyx0bj4doatjjvh6o4",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAQRe_iGlnjJV4o6XMGa2ZscADFUpYKcXewlALa997_L5Fw32ra17KkKYuzUOL0ywj5UeYu8h3nW5Pc5m2ZSPZEHnaVY8vleTnav4OKa-1rBQxgoyIPqHTQg8YQvLPk0OHVBOO-jJVlwEgMpoAmjqD9QOBcFu8Psv82vg:1pi9Sy:vENcJcWuifXsFILhCqPRYhE_TlgFq4FQrgeS_A5va4I",
+    "expire_date": "2023-04-14T07:46:32.031Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "10bz8plnyoflgqexsoegcri5udfeeaum",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAQRe_iGlnjJV4o6XMGa2ZscADFUpYKcXewlALa997_L5Fw32ra17KkKYuzUOL0ywj5UeYu8h3nW5Pc5m2ZSPZEHnaVY8vleTnav4OKa-1rBQxgoyIPqHTQg8YQvLPk0OHVBOO-jJVlwEgMpoAmjqD9QOBcFu8Psv82vg:1phsei:YZIoR8cp6y0WPJfa8kdGSi910GJMfRiJ--lXjtLM3xI",
+    "expire_date": "2023-04-13T13:49:32.817Z"
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "02f8e840-c98b-4129-abc7-7dbaf0b7e9c4",
+  "fields": {
+    "name": "Choose sea.",
+    "price": "74.03",
+    "stock": 11
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "044c3571-397b-4fe3-bd43-0362b353b439",
+  "fields": {
+    "name": "Apply card front.",
+    "price": "77.64",
+    "stock": 52
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "0a078166-106d-4899-acef-4f89d7756f3b",
+  "fields": {
+    "name": "Mind fight I.",
+    "price": "135.00",
+    "stock": 11
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "0bc2205b-e491-4f6e-85d4-fdba465bfee9",
+  "fields": {
+    "name": "Difficult.",
+    "price": "37.11",
+    "stock": 24
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "0ff8120d-2270-4e63-bd41-69341b30fee3",
+  "fields": {
+    "name": "Job owner company.",
+    "price": "115.84",
+    "stock": 44
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "1",
+  "fields": {
+    "name": "Atlas",
+    "price": "1.50",
+    "stock": 150
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "18d164e4-dfd1-4c35-b90e-3d8e4850db16",
+  "fields": {
+    "name": "At about group.",
+    "price": "28.32",
+    "stock": 74
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "202014be-f264-47f0-baa7-397b0133ad19",
+  "fields": {
+    "name": "Mind sort.",
+    "price": "21.31",
+    "stock": 58
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "2045ed53-774a-478c-8c1f-6d9966020cc0",
+  "fields": {
+    "name": "Record field.",
+    "price": "97.44",
+    "stock": 48
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "22d312e9-db20-40ad-960f-55b7b7e7f12f",
+  "fields": {
+    "name": "Support note.",
+    "price": "66.95",
+    "stock": 61
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "292fc70c-f89e-4373-b079-08c500b1762b",
+  "fields": {
+    "name": "Increase never as.",
+    "price": "97.70",
+    "stock": 48
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "3291403f-953d-4910-9fdb-1bf04e82778f",
+  "fields": {
+    "name": "Point her call.",
+    "price": "32.00",
+    "stock": 7
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "3612f25a-352c-4a68-a5ec-adde974d4371",
+  "fields": {
+    "name": "First event film.",
+    "price": "81.67",
+    "stock": 76
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "3a377d67-b989-433f-9384-a3cc6d0fef3e",
+  "fields": {
+    "name": "Everyone when.",
+    "price": "179.59",
+    "stock": 66
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "4242b62c-c240-4df0-b9f2-e890750a52b1",
+  "fields": {
+    "name": "Firm decide.",
+    "price": "94.08",
+    "stock": 92
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "49ac3111-47ba-4c66-a583-bf8ab3384c00",
+  "fields": {
+    "name": "Other close.",
+    "price": "99.90",
+    "stock": 98
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "5134cb14-b91c-4a66-bfe3-076c7d50a0d5",
+  "fields": {
+    "name": "Possible modern.",
+    "price": "57.48",
+    "stock": 86
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "528b1530-dd1b-4928-8d7f-989203cd9d5a",
+  "fields": {
+    "name": "Kind determine.",
+    "price": "101.67",
+    "stock": 26
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "55dad0b1-177f-4201-9403-bbc23ba04133",
+  "fields": {
+    "name": "Free result.",
+    "price": "346.95",
+    "stock": 84
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "5b275a16-d46b-4944-bb5e-f6803227b709",
+  "fields": {
+    "name": "Role condition.",
+    "price": "114.09",
+    "stock": 71
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "5c01af49-86bd-41b8-9907-87021694cae7",
+  "fields": {
+    "name": "Face establish.",
+    "price": "77.45",
+    "stock": 83
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "5dfff2ef-a6a7-4500-aa4c-912ed66e1b4a",
+  "fields": {
+    "name": "Weight five.",
+    "price": "7.72",
+    "stock": 16
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "5e6100d7-c94d-44df-a3b0-45b9ba1b7bca",
+  "fields": {
+    "name": "Young personal.",
+    "price": "13.17",
+    "stock": 11
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "6209d2ac-b458-46c3-84d3-3f55e45f9642",
+  "fields": {
+    "name": "Boy claim heavy.",
+    "price": "4.70",
+    "stock": 54
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "715539ff-6e05-498a-b415-e9a177b9b879",
+  "fields": {
+    "name": "Part rate hard.",
+    "price": "117.08",
+    "stock": 51
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "72ad8858-c942-4145-a98c-e1eb57d42708",
+  "fields": {
+    "name": "Think citizen.",
+    "price": "111.50",
+    "stock": 73
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "7429e822-7039-4900-83f6-1cb2d23a885a",
+  "fields": {
+    "name": "Reach example but.",
+    "price": "69.14",
+    "stock": 85
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "7a963c75-5127-4977-baed-02987e610fc3",
+  "fields": {
+    "name": "Accept even.",
+    "price": "110.97",
+    "stock": 57
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "8826acb2-24c8-4139-88cd-8abcb64062c4",
+  "fields": {
+    "name": "Ability feeling.",
+    "price": "68.18",
+    "stock": 100
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "8b5a51d8-04d1-42ca-a748-b9a75e0f0cc7",
+  "fields": {
+    "name": "Far you product.",
+    "price": "108.60",
+    "stock": 57
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "8d5cc2bd-96fa-446f-bae6-21b1d71f760b",
+  "fields": {
+    "name": "Lay computer form.",
+    "price": "2.30",
+    "stock": 95
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "8e5caa03-d1f2-4ac9-a8d2-6cc3cf92818a",
+  "fields": {
+    "name": "Reach simple.",
+    "price": "375.05",
+    "stock": 13
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "94bc22a7-54ef-4a55-ba9a-c12c5978b453",
+  "fields": {
+    "name": "Now suggest.",
+    "price": "45.85",
+    "stock": 46
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "95becb12-0169-453b-96b9-689b5335a983",
+  "fields": {
+    "name": "Bank eat art.",
+    "price": "61.98",
+    "stock": 24
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "98017704-a475-413d-aed3-14a06295fade",
+  "fields": {
+    "name": "Writer throw.",
+    "price": "308.64",
+    "stock": 98
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "a9cb1b2d-066f-46cf-8f72-81ada72dccd3",
+  "fields": {
+    "name": "Middle effect.",
+    "price": "84.25",
+    "stock": 8
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "b65926e9-1fe5-4aea-a63d-817327d2eae9",
+  "fields": {
+    "name": "Page wall happen.",
+    "price": "166.62",
+    "stock": 44
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "baa06539-999e-404d-abbf-fd8ff710f91e",
+  "fields": {
+    "name": "Tonight source.",
+    "price": "44.00",
+    "stock": 44
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "bd5b25a3-a81a-412e-8a1c-49ca6a831f38",
+  "fields": {
+    "name": "Game also wind.",
+    "price": "162.47",
+    "stock": 15
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "c3ede18e-4b71-4e3e-8c92-e728cbd6bab3",
+  "fields": {
+    "name": "Might each.",
+    "price": "95.81",
+    "stock": 34
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "c54911ce-931d-4ceb-a52b-f417f3bdbdbf",
+  "fields": {
+    "name": "Position office.",
+    "price": "335.74",
+    "stock": 24
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "c72c83aa-4958-4bd9-9bac-f091e47c58d1",
+  "fields": {
+    "name": "Management.",
+    "price": "102.20",
+    "stock": 32
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "cb17d69d-0628-4633-a1dc-db9b29beed09",
+  "fields": {
+    "name": "Control cost.",
+    "price": "240.13",
+    "stock": 88
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "da74a221-d098-44be-8ee1-d5c70395ac21",
+  "fields": {
+    "name": "Interesting it.",
+    "price": "41.62",
+    "stock": 48
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "dc855ef4-185e-4e11-a42d-9c8a910bf213",
+  "fields": {
+    "name": "Performance to.",
+    "price": "535.50",
+    "stock": 62
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "de84e25e-084d-4a9d-b20e-fc0ed1197b5c",
+  "fields": {
+    "name": "Dark and former.",
+    "price": "432.29",
+    "stock": 46
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "df37f680-de25-4f5a-a30a-7997ff307846",
+  "fields": {
+    "name": "Ok read usually.",
+    "price": "66.79",
+    "stock": 89
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "e2e51b54-06f1-4e67-94a4-6cf9f4b532b2",
+  "fields": {
+    "name": "Thing great walk.",
+    "price": "25.20",
+    "stock": 54
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "e350a150-c2a2-45b2-879e-08c5d980eea1",
+  "fields": {
+    "name": "Stop best.",
+    "price": "79.27",
+    "stock": 26
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "e42c8e38-85a0-4ae9-89df-a063060517f3",
+  "fields": {
+    "name": "Political several.",
+    "price": "462.00",
+    "stock": 31
+  }
+},
+{
+  "model": "storehouse.product",
+  "pk": "e5d538c8-618d-4db1-a1ef-eedf3eb8afca",
+  "fields": {
+    "name": "Mission member.",
+    "price": "60.83",
+    "stock": 4
+  }
+}
+]

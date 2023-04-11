@@ -55,19 +55,13 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "rest_framework",
-    "rest_framework.authtoken",
-    "dj_rest_auth",
-    "widget_tweaks",
+    "drf_spectacular",
     # My apps:
-    "shop",
-    "cart",
-    "orders",
-    "accounts",
+    "storehouse",
 ]
 
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
-    # INSTALLED_APPS.append("django_celery_results")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -117,6 +111,17 @@ DATABASES = {
 }
 
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "hw22eStorehouse_db",
+#         "USER": "postgres",
+#         "PASSWORD": "postgres",
+#         "HOST": "db",
+#         "PORT": "5432",
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -146,89 +151,31 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Celery Configuration Options
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-
-# CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost:5672//'
-# CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
-
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://guest:guest@localhost:5672//")
-
-# CELERY_CACHE_BACKEND = "django-cache"
-CELERY_CACHE_BACKEND = "default"
-
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "Europe/Kiev"
-
-
-# flower settings
-CELERY_FLOWER_USER = os.environ.get("CELERY_FLOWER_USER", "admin")
-CELERY_FLOWER_PASSWORD = os.environ.get("CELERY_FLOWER_PASSWORD", "admin")
-CELERY_FLOWER_PORT = os.environ.get("CELERY_FLOWER_PORT", 5555)
-
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://localhost:6379/1",
-        "OPTIONS": {
-            "db": "10",
-            "parser_class": "redis.connection.PythonParser",
-            "pool_class": "redis.BlockingConnectionPool",
-        },
-    }
-}
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_URL = "shop/static/"
+
+STATIC_URL = "storehouse/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop/static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "storehouse/static")]
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-CART_SESSION_ID = "cart"
-
-# Add to test email:
-if not DEBUG:
-    DEFAULT_FROM_EMAIL = "BookShop <noreply@bookshop.com>"
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = os.environ.get("EMAIL_HOST")
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = os.environ.get("EMAIL_PORT")
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-else:
-    # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = os.environ.get("EMAIL_HOST")
-    EMAIL_PORT = os.environ.get("EMAIL_PORT")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
-    "DEFAULT_PERMISSION_CLASSES": (
-        # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
-        # "rest_framework.permissions.IsAuthenticated",
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-    ),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        # "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "estorehouse API",
+    "DESCRIPTION": "estorehouse API description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }

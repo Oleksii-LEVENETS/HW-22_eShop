@@ -1,0 +1,261 @@
+version: '3'
+
+services:
+
+  web: &web
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./docker/eshop/Dockerfile
+      args:
+          DJANGO_ENV: 'dev'
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 8000
+    environment:
+      DATABASE_PORT: '5432'
+      DJANGO_DEBUG: 1
+      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/hw22eshop_db'
+      DATABASE_HOST: 'db_eshop'
+    env_file:
+      - ./eshop/.env
+    restart: on-failure
+    depends_on:
+      - db_eshop
+      - redis
+      - rabbitmq
+      - mailhog
+    command: ./docker/eshop/runserver.sh
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8000/admin/login/" ]
+      interval: 1m
+      timeout: 5s
+      retries: 2
+    volumes:
+      - .:/app
+      - ./backend:/code
+      - ./config:/config
+
+
+  estorehouse:
+    container_name: estorehouse
+    build:
+      context: .
+      dockerfile: ./docker/estorehouse/Dockerfile
+      args:
+        DJANGO_ENV: 'dev'
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 8001
+    environment:
+      DATABASE_PORT: '5432'
+      DJANGO_DEBUG: 1
+      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/hw22eStorehouse_db'
+      DATABASE_HOST: 'db_eshop'
+    env_file:
+      - ./estorehouse/.env
+    restart: on-failure
+    depends_on:
+      - db_estorehouse
+    command: ./docker/estorehouse/runserver.sh
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8001/admin/login/" ]
+      interval: 1m
+      timeout: 5s
+      retries: 2
+    volumes:
+      - .:/app
+      - ./backend:/code
+      - ./config:/config
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: on-failure
+    networks:
+      - nginx_network
+    ports:
+      - 80:80
+      - 8025:8025
+      - 5555:5555
+    depends_on:
+      - web
+      - estorehouse
+      - mailhog
+      - flower
+    healthcheck:
+      test: [ "CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep nginx",  "||", "exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: on-failure
+    networks:
+      - webnet
+    expose:
+      - 6379
+    volumes:
+      - redis:/var/lib/redis/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-h", "localhost", "ping" ]
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    restart: on-failure
+    networks:
+      - webnet
+    expose:
+      - 4369
+      - 5671
+      - 5672
+      - 15672
+      - 25672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5672"]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+
+  celery:
+    <<: *web
+    container_name: celery
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+      - redis
+      - db_eshop
+    expose: []
+    networks:
+      - webnet
+    environment:
+      C_FORCE_ROOT: 'true'
+      CHECK_WEB: 'true'
+      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/hw22eshop_db'
+      DATABASE_HOST: 'db_eshop'
+      DATABASE_PORT: '5432'
+      REDIS_URL: 'redis://redis:6379/0'
+      REDIS_CACHE: 'redis:6379'
+      AMQP_URL: 'amqp://rabbitmq:5672'
+      WEB_HOST: 'web'
+      WEB_PORT: '8000'
+    healthcheck:
+      test: ["CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep celery",  "||", "exit 1"]
+      interval: 1m
+      timeout: 5s
+      retries: 2
+    command: celery -A core  worker --loglevel=INFO  -B
+
+
+  flower:
+    image: mher/flower:0.9.5
+    container_name: flower
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 5555
+    depends_on:
+      - celery
+      - redis
+      - db_eshop
+#    command: [ "--app core", "--port=5555", "--url_prefix=flower", "--broker=amqp://rabbitmq:5672", "--broker_api=amqp://rabbitmq:15672//" ]
+    command: celery -A core --broker=amqp://guest:guest@localhost:5672// flower --port=5555 --basic_auth=admin:admin
+
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    command: [ "-smtp-bind-addr", "0.0.0.0:25" ]
+    user: root
+    restart: on-failure
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 25
+      - 8025
+    healthcheck:
+      test: [ "CMD", "echo", "|", "telnet", "127.0.0.1 25" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - webnet
+    restart: unless-stopped
+
+
+  db_eshop:
+    container_name: db_eshop
+    image: postgres:13-alpine
+    env_file: ./eshop/.env
+    networks:
+      - webnet
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'hw22eshop_db'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db_estorehouse:
+    container_name: db_estorehouse
+    image: postgres:13-alpine
+    env_file: ./estorehouse/.env
+    networks:
+      - webnet
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'hw22eStorehouse_db'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  webnet:
+  nginx_network:
+
+volumes:
+  rabbitmq_data:
+  redis:
+  db-data:

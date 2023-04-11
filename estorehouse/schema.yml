@@ -1,0 +1,904 @@
+openapi: 3.0.3
+info:
+  title: estorehouse API
+  version: 1.0.0
+  description: estorehouse API description
+paths:
+  /order/:
+    get:
+      operationId: order_list
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - order
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrderList'
+          description: ''
+    post:
+      operationId: order_create
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      tags:
+      - order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /order/{id}/:
+    get:
+      operationId: order_retrieve
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order.
+        required: true
+      tags:
+      - order
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    put:
+      operationId: order_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order.
+        required: true
+      tags:
+      - order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    patch:
+      operationId: order_partial_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order.
+        required: true
+      tags:
+      - order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    delete:
+      operationId: order_destroy
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order.
+        required: true
+      tags:
+      - order
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /orderitems/:
+    get:
+      operationId: orderitems_list
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - orderitems
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrderItemList'
+          description: ''
+    post:
+      operationId: orderitems_create
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      tags:
+      - orderitems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+  /orderitems/{id}/:
+    get:
+      operationId: orderitems_retrieve
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order item.
+        required: true
+      tags:
+      - orderitems
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    put:
+      operationId: orderitems_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order item.
+        required: true
+      tags:
+      - orderitems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    patch:
+      operationId: orderitems_partial_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order item.
+        required: true
+      tags:
+      - orderitems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    delete:
+      operationId: orderitems_destroy
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        description: A unique value identifying this order item.
+        required: true
+      tags:
+      - orderitems
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /product/:
+    get:
+      operationId: product_list
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - product
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductList'
+          description: ''
+    post:
+      operationId: product_create
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+  /product/{isbn_no}/:
+    get:
+      operationId: product_retrieve
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: isbn_no
+        schema:
+          type: string
+        description: A unique value identifying this product.
+        required: true
+      tags:
+      - product
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    put:
+      operationId: product_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: isbn_no
+        schema:
+          type: string
+        description: A unique value identifying this product.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    patch:
+      operationId: product_partial_update
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: isbn_no
+        schema:
+          type: string
+        description: A unique value identifying this product.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    delete:
+      operationId: product_destroy
+      description: |-
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+      parameters:
+      - in: path
+        name: isbn_no
+        schema:
+          type: string
+        description: A unique value identifying this product.
+        required: true
+      tags:
+      - product
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /users/:
+    get:
+      operationId: users_list
+      description: This viewset automatically provides `list` and `retrieve` actions.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+  /users/{id}/:
+    get:
+      operationId: users_retrieve
+      description: This viewset automatically provides `list` and `retrieve` actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        first_name:
+          type: string
+          maxLength: 60
+        last_name:
+          type: string
+          maxLength: 60
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone_number:
+          type: string
+          maxLength: 15
+        city:
+          type: string
+          maxLength: 100
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        paid:
+          type: boolean
+        items:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+      required:
+      - city
+      - created
+      - email
+      - first_name
+      - id
+      - items
+      - last_name
+      - paid
+      - phone_number
+      - updated
+      - url
+    OrderItem:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - id
+      - order
+      - price
+      - product
+      - url
+    PaginatedOrderItemList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+    PaginatedOrderList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+    PaginatedProductList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedOrder:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        first_name:
+          type: string
+          maxLength: 60
+        last_name:
+          type: string
+          maxLength: 60
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone_number:
+          type: string
+          maxLength: 15
+        city:
+          type: string
+          maxLength: 100
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        paid:
+          type: boolean
+        items:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+    PatchedOrderItem:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+    PatchedProduct:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        stock:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        isbn_no:
+          type: string
+          maxLength: 50
+    Product:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        stock:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        isbn_no:
+          type: string
+          maxLength: 50
+      required:
+      - isbn_no
+      - name
+      - url
+    User:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - id
+      - url
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
