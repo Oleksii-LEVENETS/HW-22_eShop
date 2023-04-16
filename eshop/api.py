@@ -8,7 +8,7 @@ from shop.models import Product
 
 
 def api_cart(pk, stock):
-    url_base = "http://localhost:8001/product"
+    url_base = "http://estorehouse:8001/product"
     headers = {"Content-Type": "application/json"}
     data = {"stock": stock}
     url = f"{url_base}/{pk}/"
@@ -21,7 +21,7 @@ def api_cart(pk, stock):
 
 
 def api_order_new(pk, first_name, last_name, email, phone_number, city, created, updated, paid):
-    url = "http://localhost:8001/order/"
+    url = "http://estorehouse:8001/order/"
     headers = {"Content-Type": "application/json"}
     data = {
         "id": pk,
@@ -38,7 +38,7 @@ def api_order_new(pk, first_name, last_name, email, phone_number, city, created,
 
 
 def api_order_paid_change(pk, paid):
-    url = f"http://localhost:8001/order/{pk}/"
+    url = f"http://estorehouse:8001/order/{pk}/"
     headers = {"Content-Type": "application/json"}
     data = {
         "paid": paid,
@@ -47,7 +47,7 @@ def api_order_paid_change(pk, paid):
 
 
 def api_order_delete(pk):
-    url = f"http://localhost:8001/order/{pk}/"
+    url = f"http://estorehouse:8001/order/{pk}/"
     headers = {"Content-Type": "application/json"}
     data = {
         "id": pk,
@@ -56,7 +56,7 @@ def api_order_delete(pk):
 
 
 def api_orderitem(pk, order, product, price, quantity):
-    url = "http://localhost:8001/orderitems/"
+    url = "http://estorehouse:8001/orderitems/"
     headers = {"Content-Type": "application/json"}
     data = {
         "id": pk,
@@ -69,7 +69,7 @@ def api_orderitem(pk, order, product, price, quantity):
 
 
 def api_orderitem_delete(pk):
-    url = f"http://localhost:8001/orderitems/{pk}/"
+    url = f"http://estorehouse:8001/orderitems/{pk}/"
     headers = {"Content-Type": "application/json"}
     data = {
         "id": pk,

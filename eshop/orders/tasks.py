@@ -53,7 +53,7 @@ def synchro_db(*args, **kwargs):
     page = 1
     while True:
         # http://localhost:8001/product/?page=1   -- the first page of the site
-        IMPORT_URL = f"http://localhost:8001/product/?page={page}"  # noqa: N806
+        IMPORT_URL = f"http://estorehouse:8001/product/?page={page}"  # noqa: N806
         headers = {"Content-Type": "application/json"}
         if not check_connection(IMPORT_URL):  # Helping function: Checking the connection to the site
             return

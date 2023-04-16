@@ -98,7 +98,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -179,3 +178,13 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost/",
+    "https://*.127.0.0.1/",
+    "https://127.0.0.1/",
+    "http://localhost:81/",
+    "https://0.0.0.0/",
+]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

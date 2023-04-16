@@ -1,4 +1,40 @@
-# HW-22_eStorehouse  
+# HW-22_eShop
+=====================
+1. Runserver (on localhost:8000)
+
+```bash
+python3 manage.py migrate
+```
+
+```bash
+./manage.py loaddata shop/fixtures/users.json
+```
+
+```bash
+python3 manage.py runserver localhost:8000
+```
+
+```bash
+celery -A core  worker --loglevel=INFO  -B  
+```
+
+```bash
+celery -A core --broker=amqp://guest:guest@localhost:5672// flower --port=5555 --basic_auth=admin:admin
+```
+
+
+```bash
+docker-compose -f docker-compose.yml down -v
+```
+
+```bash
+docker-compose up -d --build
+```
+
+
+
+===================  
+ HW-22_eStorehouse  
 ===================  
 1. Fixtures and runserver (on localhost:8001)  
 ```bash
@@ -36,3 +72,12 @@ http://localhost:8001/api/schema/swagger-ui/#/
 
     path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc")  
 http://localhost:8001/api/schema/redoc/  
+
+
+
+```bash
+docker container inspect ee7c5bd0f90e | grep IPAddress
+```
+
+docker-compose -f docker-compose.yml down -v
+docker-compose -f docker-compose.yml up -d --build

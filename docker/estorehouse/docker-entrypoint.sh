@@ -10,9 +10,9 @@ postgres_ready () {
   dockerize -wait tcp://db_estorehouse:5432 -timeout 5s
 }
 
-web_ready () {
-  # Check that web is up:
-  sh '/wait-for-command.sh' -t 5 -s 0 52 -c "curl $WEB_HOST:$WEB_PORT"
+estorehouse_ready () {
+  # Check that estorehouse is up:
+  sh '/wait-for-command.sh' -t 5 -s 0 52 -c "curl estorehouse:8001"
 }
 
 # We need this line to make sure that this container is started
@@ -26,11 +26,11 @@ done
 
 CHECK_WEB=${CHECK_WEB:-'false'}
 if [ "$CHECK_WEB" = true ]; then
-  until web_ready; do
-    >&2 echo 'Web is unavailable - sleeping'
+  until estorehouse_ready; do
+    >&2 echo 'Estorehouse is unavailable - sleeping'
   done
 
-  >&2 echo 'Web is up - continuing...'
+  >&2 echo 'Estorehouse is up - continuing...'
 fi
 
 # Evaluating passed command (do not touch):

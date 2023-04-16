@@ -1,9 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
+from datetime import timedelta
 
 from celery import Celery
-from celery.schedules import crontab
+from celery.schedules import crontab  # noqa: F401
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
@@ -22,7 +23,7 @@ app.conf.beat_schedule = {
     # executes every 5 minutes
     "synchro_db": {
         "task": "orders.tasks.synchro_db",
-        "schedule": crontab(minute="*/5"),
-        # "schedule": timedelta(seconds=10)
+        # "schedule": crontab(minute="*/5"),
+        "schedule": timedelta(seconds=10),
     }
 }

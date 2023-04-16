@@ -17,5 +17,15 @@
 .vagrant/
 __pycache__
 
+./docker/backend/Dockerfile
+./docker/estorehouse/Dockerfile
+./docker/nginx/Dockerfile
+.dockerignore
 .gitignore
 README.md
+.tox
+tox.ini
+.flake8
+.venv
+.github
+

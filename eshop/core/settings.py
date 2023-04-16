@@ -164,10 +164,10 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 # CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost:5672//'
 # CELERY_RESULT_BACKEND = 'django-db'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
 
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://guest:guest@localhost:5672//")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
 # CELERY_CACHE_BACKEND = "django-cache"
 CELERY_CACHE_BACKEND = "default"
@@ -187,7 +187,7 @@ CELERY_FLOWER_PORT = os.environ.get("CELERY_FLOWER_PORT", 5555)
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://localhost:6379/1",
+        "LOCATION": os.environ.get("LOCATION"),
         "OPTIONS": {
             "db": "10",
             "parser_class": "redis.connection.PythonParser",
@@ -228,10 +228,10 @@ else:
     # EMAIL_PORT = os.environ.get("EMAIL_PORT")
     # EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     # EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST = "mailhog"
-    EMAIL_PORT = 1025
-    DEFAULT_FROM_EMAIL = "admin@admin.com"
-    EMAIL_HOST_USER = "admin@admin.com"
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = os.environ.get("EMAIL_PORT")
+    DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 
 
 REST_FRAMEWORK = {
@@ -248,3 +248,13 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ),
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost/",
+    "https://*.127.0.0.1/",
+    "https://127.0.0.1/",
+    "http://localhost:81/",
+    "https://0.0.0.0/",
+]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

@@ -1,37 +1,26 @@
-# estorehouse/Dockerfile
+FROM python:latest
 
-# Base image
-FROM python:3.9.6-alpine
+ENV DOCKERIZE_VERSION=v0.6.1
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Copy only requirements, to cache them in docker layer:
+WORKDIR /pysetup
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get -y install netcat gcc postgresql-client libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+COPY ./estorehouse/requirements.txt /pysetup/
 
-# Set work directory
-WORKDIR /app
+# Project initialization:
+RUN pip install -r requirements.txt
 
-# Install dependencies
+# Installing `dockerize` utility:
+# https://github.com/jwilder/dockerize
+RUN wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
+    && tar -C /usr/local/bin -xzvf "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
+    && rm "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"
 
-RUN pip install --upgrade pip
-COPY ./estorehouse/requirements.txt .
-RUN pip install -r ./estorehouse/requirements.txt
+# This is a special case. We need to run this script as an entry point:
+COPY ./docker/estorehouse/docker-entrypoint.sh ./docker/estorehouse/wait-for-command.sh ./docker/estorehouse/runserver.sh /
+RUN chmod +x /docker-entrypoint.sh /wait-for-command.sh /runserver.sh
 
-# Copy entrypoint script
-COPY ./docker/estorehouse/docker-entrypoint.sh /
+# This dir will become the mountpoint of development code:
+WORKDIR /code
 
-# Copy wait-for-command script
-COPY ./docker/estorehouse/wait-for-command.sh /
-
-# Copy runserver script
-COPY ./docker/estorehouse/runserver.sh /
-
-# Copy application code
-COPY . .
-
-# Run entrypoint script
-ENTRYPOINT ["/docker/estorehouse/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
