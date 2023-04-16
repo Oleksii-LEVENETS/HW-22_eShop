@@ -138,3 +138,4 @@ __pycache__
 # Database
 *.sqlite3
 dev.env
+celerybeat-schedule.db
