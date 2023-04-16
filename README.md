@@ -1,71 +1,33 @@
-# HW-22_eShop
+# HW-22_eShop  
 =====================
-1. Runserver (on localhost:8000)
+1. Only "eshop" (localhost version):  
+https://github.com/Oleksii-LEVENETS/HW-22_eShop/tree/main  
 
+2. Only "estorehouse" (localhost version):    
+https://github.com/Oleksii-LEVENETS/HW-22_eStorehouse  
+
+3. Here:  
+- Docker
 ```bash
-python3 manage.py migrate
+docker-compose -f docker-compose.yml up -d --build
 ```
-
-```bash
-./manage.py loaddata shop/fixtures/users.json
-```
-
-```bash
-python3 manage.py runserver localhost:8000
-```
-
-```bash
-celery -A core  worker --loglevel=INFO  -B  
-```
-
-```bash
-celery -A core --broker=amqp://guest:guest@localhost:5672// flower --port=5555 --basic_auth=admin:admin
-```
-
-
 ```bash
 docker-compose -f docker-compose.yml down -v
 ```
 
-```bash
-docker-compose up -d --build
-```
+- estorehouse  http://localhost:8001/    
 
+- eshop  http://localhost/   
 
+- pgAdmin4   http://localhost:5050  (admin@example.com, admin)   
 
-===================  
- HW-22_eStorehouse  
-===================  
-1. Fixtures and runserver (on localhost:8001)  
-```bash
-python3 manage.py migrate
-```
-# Option_1  
-```bash
-./manage.py create_new_models  
-```
-```bash
-./manage.py loaddata storehouse/fixtures/users.json
-```
+- flower   http://localhost:5555/   
 
-or  
+- mailhog   http://localhost:8025/   
 
-# Option_2  
-```bash
-./manage.py loaddata storehouse/fixtures/fresh_db.json
-```
-
-```bash
-python3 manage.py runserver localhost:8001
-```
-
-2. drf-spectacular  
-    Sane and flexible OpenAPI 3.0 schema generation for Django REST framework.  
-```bash
-./manage.py spectacular --color --file schema.yml
-```
+- drf-spectacular    
+    Sane and flexible OpenAPI 3.0 schema generation for Django REST framework.
 See /schema.yml  
-
 # Optional UI:  
     path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui")   
 http://localhost:8001/api/schema/swagger-ui/#/  
@@ -74,10 +36,3 @@ http://localhost:8001/api/schema/swagger-ui/#/
 http://localhost:8001/api/schema/redoc/  
 
 
-
-```bash
-docker container inspect ee7c5bd0f90e | grep IPAddress
-```
-
-docker-compose -f docker-compose.yml down -v
-docker-compose -f docker-compose.yml up -d --build
